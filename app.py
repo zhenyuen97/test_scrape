@@ -105,7 +105,7 @@ def clean_file1(wb):
               45, 46, 47, 48, 49, 50, 51, 52]
     
     columns_to_keep = [i for i in df.columns.tolist() if i in select_columns]
-    get_min_week = [i for i in columns_to_keep if isinstance(i, int)]
+    get_min_week = str(min([i for i in columns_to_keep if isinstance(i, int)])) + 'W'
     col_name = [str(item) + 'W' if isinstance(item, int) else 'Category' if item is None else item for item in columns_to_keep]
     st.info(get_min_week)
     st.info(columns_to_keep)
@@ -113,13 +113,13 @@ def clean_file1(wb):
     df.columns = col_name
     st.dataframe(df)
     
-    first_row = df.loc[0, '9W':].values.tolist()
+    first_row = df.loc[0, get_min_week:].values.tolist()
     date_str_list = [d.strftime('%d.%m.%Y') for d in first_row]
     df = df.loc[(df['Category'] == 'P O+ F C S T')]
     df.drop(columns = ['전용성', 'Part Number', 'Category'], inplace = True)
-    df.columns.get_loc('9W')
+    df.columns.get_loc(get_min_week)
     df = df.set_index('SEC Code')
-    df = df.loc[:, '9W':]
+    df = df.loc[:, get_min_week:]
     df.columns = [date_str_list, df.columns.tolist()]
     df.reset_index(inplace = True)
     
