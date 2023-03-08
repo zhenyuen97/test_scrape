@@ -100,12 +100,14 @@ def clean_file1(wb):
     df.reset_index(inplace = True)
     df.columns.values[0] = 'SEC Code'
     select_columns = ['SEC Code', None, '전용성', 'Part Number', 'Category', 
-              6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+              1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
               26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44,
               45, 46, 47, 48, 49, 50, 51, 52]
     
     columns_to_keep = [i for i in df.columns.tolist() if i in select_columns]
     col_name = [str(item) + 'W' if isinstance(item, int) else 'Category' if item is None else item for item in columns_to_keep]
+    get_min_week = [i for i in col_name if isinstance(i, int)]
+    st.info(get_min_week)
     st.info(columns_to_keep)
     df = df[columns_to_keep]
     df.columns = col_name
