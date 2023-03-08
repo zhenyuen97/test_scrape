@@ -71,7 +71,7 @@ def main():
     
 def clean_file1(wb):
     sheet = wb['F C S T _Updated']
-    data = sheet['D7:BB118']
+    data = sheet['B7:BE122']
     rows_list = []
 
     # Loop through each row and get the values in the cells
