@@ -101,9 +101,6 @@ mlflow==1.28.0
 mlxtend==0.20.0
 multimethod==1.8
 murmurhash==1.0.8
-mysql==0.0.3
-mysql-connector-python==8.0.30
-mysqlclient==2.1.1
 nbformat==5.4.0
 nest-asyncio==1.5.5
 networkx==2.8.5
