@@ -71,7 +71,19 @@ def main():
     
 def clean_file1(wb):
     sheet = wb['F C S T _Updated']
-    data = sheet['B7:BE118']
+    sheet = wb['F C S T _Updated']
+    rows = sheet.iter_rows()
+
+    # Find the row that contains "SEC Code"
+    for row in rows:
+        for cell in row:
+            if cell.value == "SEC Code":
+                start_row = row[0].row
+                start_col = cell.column
+                break
+
+    # Select all the data to the right and bottom of the "SEC Code" cell
+    data = sheet.iter_cols(min_row=start_row, min_col=start_col, max_row=sheet.max_row, max_col=sheet.max_column)
     rows_list = []
 
     # Loop through each row and get the values in the cells
@@ -82,9 +94,9 @@ def clean_file1(wb):
             cols.append(col.value)
         rows_list.append(cols)
 
-    # Create a pandas dataframe from the rows_list.
-    # The first row is the column names
     df = pd.DataFrame(data=rows_list[1:], index=None, columns=rows_list[0])
+    # df.transpose()
+    df = df.set_index('SEC Code').T
     select_columns = ['SEC Code', None, '전용성', 'Part Number', 'Category', 
               6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
               26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44,
