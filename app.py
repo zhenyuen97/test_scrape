@@ -71,7 +71,7 @@ def main():
     
 def clean_file1(wb):
     sheet = wb['F C S T _Updated']
-    data = sheet['B7:BE122']
+    data = sheet['B7:BE118']
     rows_list = []
 
     # Loop through each row and get the values in the cells
@@ -85,21 +85,25 @@ def clean_file1(wb):
     # Create a pandas dataframe from the rows_list.
     # The first row is the column names
     df = pd.DataFrame(data=rows_list[1:], index=None, columns=rows_list[0])
-    df.columns = ['SEC Code', '전용성', 'Part Number', 'Category', 
-              '6W', '7W', '8W', '9W', '10W', '11W', '12W', 
-              '13W', '14W', '15W', '16W', '17W', '18W', '19W',
-              '20W', '21W', '22W', '23W', '24W', '25W', '26W',
-              '27W', '28W', '29W', '30W', '31W', '32W', '33W',
-              '34W', '35W', '36W', '37W', '38W', '39W', '40W',
-              '41W', '42W', '43W', '44W', '45W', '46W', '47W',
-              '48W', '49W', '50W', '51W', '52W']
-    first_row = df.loc[0, '6W':].values.tolist()
+    select_columns = ['SEC Code', None, '전용성', 'Part Number', 'Category', 
+              6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+              26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44,
+              45, 46, 47, 48, 49, 50, 51, 52]
+    
+    columns_to_keep = [i for i in df.columns.tolist() if i in select_columns]
+    col_name = [str(item) + 'W' if isinstance(item, int) else 'Category' if item is None else item for item in columns_to_keep]
+    st.info(columns_to_keep)
+    df = df[columns_to_keep]
+    df.columns = col_name
+    st.dataframe(df)
+    
+    first_row = df.loc[0, '9W':].values.tolist()
     date_str_list = [d.strftime('%d.%m.%Y') for d in first_row]
     df = df.loc[(df['Category'] == 'P O+ F C S T')]
     df.drop(columns = ['전용성', 'Part Number', 'Category'], inplace = True)
-    df.columns.get_loc('6W')
+    df.columns.get_loc('9W')
     df = df.set_index('SEC Code')
-    df = df.loc[:, '6W':]
+    df = df.loc[:, '9W':]
     df.columns = [date_str_list, df.columns.tolist()]
     df.reset_index(inplace = True)
     
