@@ -97,6 +97,7 @@ def clean_file1(wb):
     df = pd.DataFrame(data=rows_list[1:], index=None, columns=rows_list[0])
     # df.transpose()
     df = df.set_index('SEC Code').T
+    df.reset_index(inplace = True)
     df.columns.values[0] = 'SEC Code'
     select_columns = ['SEC Code', None, '전용성', 'Part Number', 'Category', 
               6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
