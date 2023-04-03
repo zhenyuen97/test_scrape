@@ -105,7 +105,7 @@ def clean_file1(wb):
               45, 46, 47, 48, 49, 50, 51, 52]
     
     columns_to_keep = [i for i in df.columns.tolist() if i in select_columns]
-    get_min_week = str(min([i for i in columns_to_keep if isinstance(i, int)])) + 'W'
+    get_min_week = min([i for i in columns_to_keep if isinstance(i, int)])
     col_name = [str(item) + 'W' if isinstance(item, int) else 'Category' if item is None else item for item in columns_to_keep]
     st.info(get_min_week)
     st.info(columns_to_keep)
@@ -142,7 +142,7 @@ def combine_files(df1, df2):
     for col in df1.columns[1:]:
         
         # get the start and end dates for the current column
-        start_date = datetime.strptime(col[0], '%d.%m.%Y')
+        start_date = datetime.strptime(col[0], '%d/%m/%Y')
         end_date = start_date + timedelta(days=7)
         
         # filter df2 for records between the start and end dates
